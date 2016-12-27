@@ -1,4 +1,18 @@
 
-<div ng-controller="HealthCheckerController">
-    Health
+<div ng-controller="HealthCheckerController" ng-init="init()">
+    <div class="row col-md-4 col-md-offset-2">
+
+        <div class="last-update">Last update: {{wasLastUpdateAgo}} seconds ago</div>
+
+        <div class="panel panel-primary healthchecker-panel">
+            <div class="panel-heading header">Applications</div>
+            <table class="table">
+                <tr ng-repeat="appReport in apps">
+                    <td class="col-md-8 app-name">{{appReport.appName}}</td>
+                    <td class="col-md-4" ng-class="{healthy : appReport.state === 'HEALTHY',
+                            error : appReport.state === 'ERROR'}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

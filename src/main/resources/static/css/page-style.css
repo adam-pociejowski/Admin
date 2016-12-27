@@ -47,3 +47,37 @@
     padding: 13px;
     margin: 0;
 }
+
+.healthchecker-panel {
+    max-width: 600px;
+    min-width: 400px;
+}
+
+.header {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.last-update {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.app-name {
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.healthy {
+    background-color: #64DD17;
+}
+
+.error {
+    background-color: #FA1D00;
+}
+
+.warning {
+    background-color: #FFB300;
+}
