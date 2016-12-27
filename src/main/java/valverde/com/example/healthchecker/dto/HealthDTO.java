@@ -2,7 +2,6 @@ package valverde.com.example.healthchecker.dto;
 
 import lombok.Data;
 import valverde.com.example.healthchecker.enums.HealthState;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,8 @@ import java.util.List;
 public class HealthDTO {
 
     private String appName;
+
+    private String appHost;
 
     private HealthState state;
 

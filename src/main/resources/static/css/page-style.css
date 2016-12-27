@@ -1,13 +1,25 @@
+body {
+    font-family: 'Lato', serif;
+    background-color: #E0F2F1;
+}
+
+html {
+    background-color: #E0F2F1;
+}
+
+#content {
+    margin-top: 80px;
+}
 
 #custom-bootstrap-menu.navbar-default .navbar-brand {
-    font-size: 22px;
+    font-size: 32px;
+    font-style: italic;
     color: rgba(255, 255, 255, 1);
     margin-right: 30px;
 }
 #custom-bootstrap-menu.navbar-default {
     font-size: 18px;
     font-weight: 600;
-    font-family: 'Lora', serif;
     background-color: rgba(66, 139, 202, 1);
     border-width: 0;
     border-radius: 0;
@@ -48,6 +60,10 @@
     margin: 0;
 }
 
+.active-menu-item {
+    background-color: #01579B;
+}
+
 .healthchecker-panel {
     max-width: 600px;
     min-width: 400px;
@@ -59,8 +75,9 @@
 }
 
 .last-update {
-    font-size: 18px;
+    font-size: 20px;
     font-style: italic;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 
@@ -80,4 +97,12 @@
 
 .warning {
     background-color: #FFB300;
+}
+
+a:hover, a:active, a.active  {
+    text-decoration: none;
+}
+
+a.glyphicon{
+    font-size: 1.6em;
 }

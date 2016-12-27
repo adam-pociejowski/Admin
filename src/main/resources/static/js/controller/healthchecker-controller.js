@@ -34,7 +34,7 @@ app.controller('HealthCheckerController', function ($scope, $timeout, $interval,
 
     $interval(function() {
         $scope.wasLastUpdateAgo = parseInt((Date.now() - $scope.lastUpdate) / 1000);
-    }, 500);
+    }, 1000);
 
     $scope.init = function () {
         getLastReport();

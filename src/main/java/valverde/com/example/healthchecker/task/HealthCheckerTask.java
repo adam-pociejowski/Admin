@@ -18,7 +18,11 @@ public class HealthCheckerTask {
     @Scheduled(fixedRate = 300000)
     public void checkAppsHealth() throws Exception {
         List<HealthDTO> healthDTOs = new ArrayList<>();
-        EnumSet.allOf(App.class).forEach(app -> healthDTOs.add(healthCheckerRestService.getHealthStatus(app)));
+        EnumSet.allOf(App.class).forEach(app -> {
+            HealthDTO dto = healthCheckerRestService.getHealthStatus(app);
+            dto.setAppHost(app.getHost());
+            healthDTOs.add(dto);
+        });
         sendToWebSocket(healthDTOs);
         healthReportService.saveReportsFromDTOs(healthDTOs);
     }

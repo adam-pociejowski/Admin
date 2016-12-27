@@ -11,11 +11,13 @@ import valverde.com.example.healthchecker.entity.HealthAppReport;
 import valverde.com.example.healthchecker.entity.HealthMessage;
 import valverde.com.example.healthchecker.entity.HealthReport;
 import valverde.com.example.healthchecker.entity.HealthStat;
+import valverde.com.example.healthchecker.enums.App;
 import valverde.com.example.healthchecker.enums.HealthState;
 import valverde.com.example.healthchecker.repository.HealthReportRepository;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.EnumSet;
 import java.util.List;
 import static valverde.com.example.healthchecker.enums.HealthState.*;
 
@@ -51,9 +53,18 @@ public class HealthReportService {
             dto.setAppName(appReport.getAppName());
             dto.setMessages(getMessages(appReport));
             dto.setStats(getStats(appReport));
+            dto.setAppHost(getAppByName(appReport.getAppName()).getHost());
             dtos.add(dto);
         });
         return dtos;
+    }
+
+    private App getAppByName(String appName) {
+        for (App app : EnumSet.allOf(App.class)) {
+            if (app.getName().equals(appName))
+                return app;
+        }
+        return App.SPORT_CENTER;
     }
 
     private List<StatDTO> getStats(HealthAppReport appReport) {

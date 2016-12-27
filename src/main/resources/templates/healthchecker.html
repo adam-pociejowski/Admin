@@ -8,7 +8,10 @@
             <div class="panel-heading header">Applications</div>
             <table class="table">
                 <tr ng-repeat="appReport in apps">
-                    <td class="col-md-8 app-name">{{appReport.appName}}</td>
+                    <td class="col-md-1">
+                        <a href="{{appReport.appHost}}" target="_blank" class="glyphicon glyphicon-eye-open view-page"></a>
+                    </td>
+                    <td class="col-md-7 app-name">{{appReport.appName}}</td>
                     <td class="col-md-4" ng-class="{healthy : appReport.state === 'HEALTHY',
                             error : appReport.state === 'ERROR'}"></td>
                 </tr>
