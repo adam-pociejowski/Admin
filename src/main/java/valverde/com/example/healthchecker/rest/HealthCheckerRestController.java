@@ -7,10 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import valverde.com.example.healthchecker.dto.HealthDTO;
 import valverde.com.example.healthchecker.dto.HealthReportDTO;
 import valverde.com.example.healthchecker.enums.App;
 import valverde.com.example.healthchecker.service.HealthCheckerRestService;
-import valverde.com.example.healthchecker.service.HealthReportService;
+import valverde.com.example.healthchecker.service.HealthCheckerService;
 import java.util.List;
 
 @RestController
@@ -18,21 +19,21 @@ import java.util.List;
 @RequestMapping("/healthchecker/rest")
 public class HealthCheckerRestController {
 
-    private final HealthCheckerRestService healthCheckerRestService;
-
-    private final HealthReportService healthReportService;
-
-    @Autowired
-    public HealthCheckerRestController(HealthCheckerRestService healthCheckerRestService,
-                                       HealthReportService healthReportService) {
-        this.healthCheckerRestService = healthCheckerRestService;
-        this.healthReportService = healthReportService;
+    @GetMapping("/getstatuses")
+    public ResponseEntity<List<HealthDTO>> getActualStatuses() {
+        try {
+            List<HealthDTO> dtos = healthCheckerService.getHealthStatusesFromApps();
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Problem while getting actual statuses of apps.", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/getlastreport")
     public ResponseEntity<HealthReportDTO> getLastReport() {
         try {
-            HealthReportDTO dto = healthReportService.getLastHealthReportAsDTO();
+            HealthReportDTO dto = healthCheckerService.getLastHealthReportAsDTO();
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Problem while getting last report.", e);
@@ -43,11 +44,21 @@ public class HealthCheckerRestController {
     @GetMapping("/getapps")
     public ResponseEntity<List<App>> getApps() {
         try {
-            List<App> apps = healthCheckerRestService.getApps();
+            List<App> apps = restService.getApps();
             return new ResponseEntity<>(apps, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Problem while getting apps.", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Autowired
+    public HealthCheckerRestController(HealthCheckerRestService restService, HealthCheckerService healthCheckerService) {
+        this.restService = restService;
+        this.healthCheckerService = healthCheckerService;
+    }
+
+    private final HealthCheckerRestService restService;
+
+    private final HealthCheckerService healthCheckerService;
 }

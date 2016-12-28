@@ -15,7 +15,7 @@ import java.util.List;
 @CommonsLog
 public class HealthCheckerRestService {
 
-    public HealthDTO getHealthStatus(App app) {
+    HealthDTO getHealthStatus(App app) {
         try {
             final String STATUS_HEALTH_POINT = "/health/status";
             String url = app.getHost() + STATUS_HEALTH_POINT;

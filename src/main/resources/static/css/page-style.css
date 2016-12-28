@@ -65,24 +65,53 @@ html {
 }
 
 .healthchecker-panel {
-    max-width: 600px;
+    margin-top: 30px;
+}
+
+.table {
+    border: 2px solid #2980B9;
+}
+
+.table tr td {
+    border-bottom: 2px solid #2980B9;
+}
+
+.healthchecker {
     min-width: 400px;
+    max-width: 500px;
 }
 
 .header {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .last-update {
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: 600;
     font-style: italic;
-    margin-top: 40px;
+    margin-top: 25px;
     margin-bottom: 20px;
+    width: 100%;
+}
+
+.refresh-span {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.refresh-span:hover {
+    color: #0D47A1;
+}
+
+span:focus {
+    outline: none;
+    border: 0;
 }
 
 .app-name {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     font-style: italic;
 }

@@ -36,6 +36,14 @@ app.controller('HealthCheckerController', function ($scope, $timeout, $interval,
         $scope.wasLastUpdateAgo = parseInt((Date.now() - $scope.lastUpdate) / 1000);
     }, 1000);
 
+    $scope.refreshStatuses = function() {
+        var promise = healthCheckerService.getActualStatuses();
+        promise.success(function(data) {
+            $scope.apps = data;
+            $scope.lastUpdate = Date.now();
+        }).error(function() {});
+    };
+
     $scope.init = function () {
         getLastReport();
         initSockets();
