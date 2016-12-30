@@ -19,4 +19,5 @@ public class AdminApplication {
     public String showIndex() {
         return "index";
     }
+
 }

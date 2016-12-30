@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import valverde.com.example.healthchecker.dto.HealthDTO;
 import valverde.com.example.healthchecker.dto.HealthReportDTO;
 import valverde.com.example.healthchecker.enums.App;
-import valverde.com.example.healthchecker.service.HealthCheckerRestService;
 import valverde.com.example.healthchecker.service.HealthCheckerService;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class HealthCheckerRestController {
     @GetMapping("/getapps")
     public ResponseEntity<List<App>> getApps() {
         try {
-            List<App> apps = restService.getApps();
+            List<App> apps = healthCheckerService.getApps();
             return new ResponseEntity<>(apps, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Problem while getting apps.", e);
@@ -53,12 +52,9 @@ public class HealthCheckerRestController {
     }
 
     @Autowired
-    public HealthCheckerRestController(HealthCheckerRestService restService, HealthCheckerService healthCheckerService) {
-        this.restService = restService;
+    public HealthCheckerRestController(HealthCheckerService healthCheckerService) {
         this.healthCheckerService = healthCheckerService;
     }
-
-    private final HealthCheckerRestService restService;
 
     private final HealthCheckerService healthCheckerService;
 }

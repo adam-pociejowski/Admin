@@ -9,6 +9,8 @@ import valverde.com.example.healthchecker.dto.HealthReportDTO;
 import valverde.com.example.healthchecker.entity.HealthReport;
 import valverde.com.example.healthchecker.enums.App;
 import valverde.com.example.healthchecker.repository.HealthReportRepository;
+import valverde.com.example.healthchecker.rest.HealthCheckerRestConsumer;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -22,7 +24,7 @@ public class HealthCheckerService {
     public List<HealthDTO> getHealthStatusesFromApps() {
         List<HealthDTO> healthDTOs = new ArrayList<>();
         EnumSet.allOf(App.class).forEach(app -> {
-            HealthDTO dto = restService.getHealthStatus(app);
+            HealthDTO dto = restConsumer.getHealthStatus(app);
             dto.setAppHost(app.getHost());
             healthDTOs.add(dto);
         });
@@ -48,13 +50,17 @@ public class HealthCheckerService {
         }
     }
 
+    public List<App> getApps() {
+        return new ArrayList<>(EnumSet.allOf(App.class));
+    }
+
     @Autowired
-    public HealthCheckerService(HealthReportRepository repository, HealthCheckerRestService restService) {
+    public HealthCheckerService(HealthReportRepository repository, HealthCheckerRestConsumer restConsumer) {
         this.repository = repository;
-        this.restService = restService;
+        this.restConsumer = restConsumer;
     }
 
     private final HealthReportRepository repository;
 
-    private final HealthCheckerRestService restService;
+    private final HealthCheckerRestConsumer restConsumer;
 }
