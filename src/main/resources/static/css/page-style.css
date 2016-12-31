@@ -86,6 +86,16 @@ html {
     font-weight: bold;
 }
 
+.date-history {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.history-table {
+    height: 700px;
+    overflow-y: auto;
+}
+
 .last-update {
     font-size: 22px;
     font-weight: 600;
@@ -95,14 +105,26 @@ html {
     width: 100%;
 }
 
-.refresh-span {
+.glyphicon-span {
     font-size: 1.4em;
     font-weight: bold;
     color: #2196F3;
 }
 
-.refresh-span:hover {
+.glyphicon-home {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #2196F3;
+    margin-bottom: 20px;
+    margin-left: 15px;
+ }
+
+.glyphicon-span:hover, glyphicon-home:hover {
     color: #0D47A1;
+}
+
+.margin-right {
+    margin-right: 10px;
 }
 
 span:focus {
@@ -134,4 +156,9 @@ a:hover, a:active, a.active  {
 
 a.glyphicon{
     font-size: 1.6em;
+}
+
+.health-history {
+    background-color: white;
+    padding: 10px;
 }

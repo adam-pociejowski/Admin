@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 @Service
 @CommonsLog
-public class HealthCheckerRestConsumer {
+public class HealthStatusRestConsumer {
 
     public HealthDTO getHealthStatus(App app) {
         try {

@@ -1,8 +1,12 @@
 <div class="container" ng-controller="HealthCheckerController" ng-init="init()">
-    <div class="healthchecker row col-md-5 col-md-offset-2 col-sm-7 col-sm-offset-3">
+    <div class="healthchecker row">
         <div class="last-update">
             <span>Last update: {{wasLastUpdateAgo}} seconds ago</span>
-            <span ng-click="refreshStatuses()" class="refresh-span glyphicon glyphicon-refresh pull-right"></span>
+
+            <div class="pull-right">
+                <span ng-click="goToLocation('healthchecker/history')" class="margin-right glyphicon-span glyphicon glyphicon-th-list"></span>
+                <span ng-click="refreshStatuses()" class="glyphicon-span glyphicon glyphicon-refresh"></span>
+            </div>
         </div>
 
         <div class="panel panel-primary healthchecker-panel">

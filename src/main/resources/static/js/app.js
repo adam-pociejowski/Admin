@@ -6,6 +6,9 @@ var app = angular.module('App', ['ngAnimate', 'ngResource', 'ngRoute', 'ngMateri
         }).when('/healthchecker', {
             templateUrl : 'healthchecker.html',
             controller : 'HealthCheckerController'
+        }).when('/healthchecker/history', {
+            templateUrl : 'health-history.html',
+            controller : 'HealthCheckerController'
         }).otherwise(
             { redirectTo: '/healthchecker'}
         );

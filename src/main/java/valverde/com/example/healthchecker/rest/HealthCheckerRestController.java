@@ -18,6 +18,16 @@ import java.util.List;
 @RequestMapping("/healthchecker/rest")
 public class HealthCheckerRestController {
 
+    @GetMapping("/getallreports")
+    public ResponseEntity<List<HealthReportDTO>> getAllReports() {
+        try {
+            return new ResponseEntity<>(healthCheckerService.getAllHealthReports(), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Problem with getting information about all health reports.", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/getstatuses")
     public ResponseEntity<List<HealthDTO>> getActualStatuses() {
         try {

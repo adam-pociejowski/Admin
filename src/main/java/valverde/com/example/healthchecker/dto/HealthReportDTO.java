@@ -1,6 +1,8 @@
 package valverde.com.example.healthchecker.dto;
 
 import lombok.Data;
+import valverde.com.example.healthchecker.enums.HealthState;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +10,8 @@ import java.util.List;
 public class HealthReportDTO {
 
     private Date reportDate;
+
+    private HealthState state;
 
     private List<HealthDTO> appReports;
 

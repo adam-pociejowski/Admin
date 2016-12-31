@@ -9,8 +9,7 @@ import valverde.com.example.healthchecker.dto.HealthReportDTO;
 import valverde.com.example.healthchecker.entity.HealthReport;
 import valverde.com.example.healthchecker.enums.App;
 import valverde.com.example.healthchecker.repository.HealthReportRepository;
-import valverde.com.example.healthchecker.rest.HealthCheckerRestConsumer;
-
+import valverde.com.example.healthchecker.rest.HealthStatusRestConsumer;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -20,6 +19,13 @@ import static valverde.com.example.healthchecker.util.HealthReportUtils.*;
 @CommonsLog
 @Transactional
 public class HealthCheckerService {
+
+    public List<HealthReportDTO> getAllHealthReports() {
+        List<HealthReportDTO> dtos = new ArrayList<>();
+        List<HealthReport> reports = repository.findAllByOrderByIdDesc();
+        reports.forEach(report -> dtos.add(createHealthReportDTO(report)));
+        return dtos;
+    }
 
     public List<HealthDTO> getHealthStatusesFromApps() {
         List<HealthDTO> healthDTOs = new ArrayList<>();
@@ -32,11 +38,7 @@ public class HealthCheckerService {
     }
 
     public HealthReportDTO getLastHealthReportAsDTO() {
-        HealthReport report = repository.findTop1ByOrderByIdDesc();
-        HealthReportDTO dto = new HealthReportDTO();
-        dto.setReportDate(report.getReportDate());
-        dto.setAppReports(convertReportToDTOs(report));
-        return dto;
+        return createHealthReportDTO(repository.findTop1ByOrderByIdDesc());
     }
 
     public void saveReportsFromDTOs(List<HealthDTO> dtos) {
@@ -55,12 +57,12 @@ public class HealthCheckerService {
     }
 
     @Autowired
-    public HealthCheckerService(HealthReportRepository repository, HealthCheckerRestConsumer restConsumer) {
+    public HealthCheckerService(HealthReportRepository repository, HealthStatusRestConsumer restConsumer) {
         this.repository = repository;
         this.restConsumer = restConsumer;
     }
 
     private final HealthReportRepository repository;
 
-    private final HealthCheckerRestConsumer restConsumer;
+    private final HealthStatusRestConsumer restConsumer;
 }

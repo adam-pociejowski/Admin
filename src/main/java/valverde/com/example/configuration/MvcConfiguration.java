@@ -10,7 +10,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/healthchecker.html").setViewName("healthchecker");
+        registry.addViewController("healthchecker.html").setViewName("healthchecker");
+        registry.addViewController("health-history.html").setViewName("health-history");
     }
 
     @Override

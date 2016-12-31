@@ -1,6 +1,6 @@
 app.controller('HealthCheckerController', function ($scope, $timeout, $interval, healthCheckerService) {
-    $scope.apps = [];
     $scope.lastUpdate = 'Unknown';
+    $scope.apps = [];
 
     $scope.socket = {
         client: null,
@@ -15,11 +15,11 @@ app.controller('HealthCheckerController', function ($scope, $timeout, $interval,
         }).error(function () {});
     };
 
-    var reconnect = function() {
+    var reconnect = function () {
         setTimeout($scope.initSockets, 10000);
     };
 
-    var initSockets = function() {
+    var initSockets = function () {
         $scope.socket.client = new SockJS('/gs-guide-websocket');
         $scope.socket.stomp = Stomp.over($scope.socket.client);
         $scope.socket.stomp.connect({}, function() {
@@ -32,16 +32,16 @@ app.controller('HealthCheckerController', function ($scope, $timeout, $interval,
         $scope.socket.client.onclose = reconnect;
     };
 
-    $interval(function() {
+    $interval(function () {
         $scope.wasLastUpdateAgo = parseInt((Date.now() - $scope.lastUpdate) / 1000);
     }, 1000);
 
-    $scope.refreshStatuses = function() {
+    $scope.refreshStatuses = function () {
         var promise = healthCheckerService.getActualStatuses();
         promise.success(function(data) {
             $scope.apps = data;
             $scope.lastUpdate = Date.now();
-        }).error(function() {});
+        }).error(function () {});
     };
 
     $scope.init = function () {

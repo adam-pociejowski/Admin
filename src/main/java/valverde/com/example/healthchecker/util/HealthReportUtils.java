@@ -1,6 +1,7 @@
 package valverde.com.example.healthchecker.util;
 
 import valverde.com.example.healthchecker.dto.HealthDTO;
+import valverde.com.example.healthchecker.dto.HealthReportDTO;
 import valverde.com.example.healthchecker.dto.StatDTO;
 import valverde.com.example.healthchecker.entity.HealthAppReport;
 import valverde.com.example.healthchecker.entity.HealthMessage;
@@ -17,7 +18,15 @@ import static valverde.com.example.healthchecker.enums.HealthState.*;
 
 public class HealthReportUtils {
 
-    public static List<HealthDTO> convertReportToDTOs(HealthReport report) {
+    public static HealthReportDTO createHealthReportDTO(HealthReport report) {
+        HealthReportDTO dto = new HealthReportDTO();
+        dto.setReportDate(report.getReportDate());
+        dto.setAppReports(convertReportToDTOs(report));
+        dto.setState(getOverallStatus(dto.getAppReports()));
+        return dto;
+    }
+
+    private static List<HealthDTO> convertReportToDTOs(HealthReport report) {
         List<HealthDTO> dtos = new ArrayList<>();
         report.getAppReports().forEach(appReport -> {
             HealthDTO dto = new HealthDTO();

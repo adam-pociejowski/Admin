@@ -1,12 +1,15 @@
 app.factory('healthCheckerService', ['$http', function ($http) {
-    var BASE_URL = '/healthchecker/rest';
+    var BASE_URL = '/healthchecker/rest/';
 
     return {
         getLastReport: function() {
-            return $http.get(BASE_URL + '/getlastreport');
+            return $http.get(BASE_URL + 'getlastreport');
         },
         getActualStatuses: function() {
-            return $http.get(BASE_URL + '/getstatuses')
+            return $http.get(BASE_URL + 'getstatuses')
+        },
+        getAllReports: function () {
+            return $http.get(BASE_URL + 'getallreports')
         }
     };
 }]);

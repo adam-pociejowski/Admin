@@ -1,0 +1,41 @@
+<div class="container" ng-controller="HealthHistoryController" ng-init="init()">
+    <div class="row">
+        <div>
+            <span ng-click="goToLocation('healthchecker')" class="glyphicon-span glyphicon glyphicon-home"></span>
+        </div>
+
+        <div class="col-sm-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading header">Healthchecker history</div>
+                <div class="history-table">
+                    <table class="table table-striped" >
+                        <tr ng-repeat="report in allReports" ng-click="showReport(report)">
+                            <td class="date-history col-xs-8">{{report.reportDate | date:'medium'}}</td>
+                            <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
+                                error : report.state === 'ERROR'}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading header">Report details</div>
+                <table class="date-history table table-striped">
+                    <tr>
+                        <td class="col-xs-3">App</td>
+                        <td class="col-xs-2">State</td>
+                        <td class="col-xs-7">Messages</td>
+                    </tr>
+                    <tr ng-repeat="appReport in selectedReport.appReports">
+                        <td>{{appReport.appName}}</td>
+                        <td ng-class="{healthy : appReport.state === 'HEALTHY',
+                            error : appReport.state === 'ERROR'}"></td>
+                        <td>{{appReport.messages}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
