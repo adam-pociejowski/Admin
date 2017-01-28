@@ -27,6 +27,10 @@ public class HealthCheckerService {
         return dtos;
     }
 
+    public void wakeUpApp() {
+        restConsumer.wakeUpApp();
+    }
+
     public List<HealthDTO> getHealthStatusesFromApps() {
         List<HealthDTO> healthDTOs = new ArrayList<>();
         EnumSet.allOf(App.class).forEach(app -> {

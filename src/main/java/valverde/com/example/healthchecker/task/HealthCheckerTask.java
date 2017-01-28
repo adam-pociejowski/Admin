@@ -13,6 +13,7 @@ public class HealthCheckerTask {
 
     @Scheduled(fixedRate = 600000)
     public void checkAppsHealth() throws Exception {
+        healthCheckerService.wakeUpApp();
         List<HealthDTO> healthDTOs = healthCheckerService.getHealthStatusesFromApps();
         sendToWebSocket(healthDTOs);
         healthCheckerService.saveReportsFromDTOs(healthDTOs);

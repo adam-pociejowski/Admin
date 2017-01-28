@@ -61,6 +61,16 @@ public class HealthCheckerRestController {
         }
     }
 
+    @GetMapping("/wakeup")
+    public ResponseEntity<String> wakeUp() {
+        try {
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Problem while trying to wake up application.", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Autowired
     public HealthCheckerRestController(HealthCheckerService healthCheckerService) {
         this.healthCheckerService = healthCheckerService;
