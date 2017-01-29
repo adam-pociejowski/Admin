@@ -11,18 +11,18 @@ import java.util.List;
 @Component
 public class HealthCheckerTask {
 
-    @Scheduled(fixedRate = 600000)
+    /** Every 10 minutes run task */
+    @Scheduled(cron = "0 0/10 * * * *")
     public void checkAppsHealth() throws Exception {
-        healthCheckerService.wakeUpApp();
         List<HealthDTO> healthDTOs = healthCheckerService.getHealthStatusesFromApps();
         sendToWebSocket(healthDTOs);
         healthCheckerService.saveReportsFromDTOs(healthDTOs);
+        healthCheckerService.wakeUpApp();
     }
 
     private void sendToWebSocket(List<HealthDTO> results) {
         template.convertAndSend("/topic/greetings", results);
     }
-
 
     @Autowired
     public HealthCheckerTask(SimpMessagingTemplate template, HealthCheckerService healthCheckerService) {

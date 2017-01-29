@@ -1,7 +1,6 @@
 package valverde.com.example.healthchecker.rest;
 
 import lombok.extern.apachecommons.CommonsLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -11,10 +10,6 @@ import org.springframework.web.client.RestTemplate;
 import valverde.com.example.healthchecker.dto.HealthDTO;
 import valverde.com.example.healthchecker.enums.App;
 import valverde.com.example.healthchecker.enums.HealthState;
-
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 @Service
@@ -35,7 +30,12 @@ public class HealthStatusRestConsumer {
     }
 
     public void wakeUpApp() {
-        getRestTemplate().getForObject(APP_URL+"/healthchecker/rest/wakeup", String.class);
+        try {
+            getRestTemplate().getForObject(APP_URL+"/healthchecker/rest/wakeup", String.class);
+            log.info("Application awoken.");
+        } catch (Exception e) {
+            log.error("Problem while trying to wake up application.", e);
+        }
     }
 
     private HealthDTO createErrorReport(App app, Exception e, String[] messages) {
