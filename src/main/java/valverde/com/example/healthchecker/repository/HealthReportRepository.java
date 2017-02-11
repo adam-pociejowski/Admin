@@ -9,4 +9,6 @@ public interface HealthReportRepository extends JpaRepository<HealthReport, Long
     HealthReport findTop1ByOrderByIdDesc();
 
     List<HealthReport> findAllByOrderByIdDesc();
+
+    List<HealthReport> findAllByOrderById();
 }

@@ -17,7 +17,8 @@ public class HealthAppReport {
     @SequenceGenerator(name = "health_app_report_seq_gen", sequenceName = "health_app_report_id_seq")
     private Long id;
 
-    private String appName;
+    @ManyToOne
+    private Application application;
 
     @Enumerated(EnumType.STRING)
     private HealthState status;

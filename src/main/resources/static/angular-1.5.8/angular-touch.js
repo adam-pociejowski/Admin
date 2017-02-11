@@ -370,7 +370,7 @@ var ngTouchClickDirectiveFactory = ['$parse', '$timeout', '$rootElement',
   // Mobile browsers detect a tap, then wait a moment (usually ~300ms) to see if you're
   // double-tapping, and then fire a click event.
   //
-  // This delay sucks and makes mobile apps feel unresponsive.
+  // This delay sucks and makes mobile appReports feel unresponsive.
   // So we detect touchstart, touchcancel and touchend ourselves and determine when
   // the user has tapped on something.
   //

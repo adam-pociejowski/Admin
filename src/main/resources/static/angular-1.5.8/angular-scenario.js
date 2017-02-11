@@ -15364,7 +15364,7 @@ var $AnimateProvider = ['$provide', function($provide) {
      * to ensure that animation runs with the triggered DOM operation.
      *
      * By default $animate doesn't trigger any animations. This is because the `ngAnimate` module isn't
-     * included and only when it is active then the animation hooks that `$animate` triggers will be
+     * included and only when it is active then the animation hooks that `$animate` task will be
      * functional. Once active then all structural `ng-` directives will trigger animations as they perform
      * their DOM-related operations (enter, leave and move). Other directives such as `ngClass`,
      * `ngShow`, `ngHide` and `ngMessages` also provide support for animations.
@@ -15504,7 +15504,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * @name $animate#enter
        * @kind function
        * @description Inserts the element into the DOM either after the `after` element (if provided) or
-       *   as the first child within the `parent` element and then triggers an animation.
+       *   as the first child within the `parent` element and then task an animation.
        *   A promise is returned that will be resolved during the next digest once the animation
        *   has completed.
        *
@@ -15537,7 +15537,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * @kind function
        * @description Inserts (moves) the element into its new position in the DOM either after
        *   the `after` element (if provided) or as the first child within the `parent` element
-       *   and then triggers an animation. A promise is returned that will be resolved
+       *   and then task an animation. A promise is returned that will be resolved
        *   during the next digest once the animation has completed.
        *
        * @param {DOMElement} element the element which will be moved into the new DOM position
@@ -15653,7 +15653,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * @kind function
        *
        * @description Performs both the addition and removal of a CSS classes on an element and (during the process)
-       *    triggers an animation surrounding the class addition/removal. Much like `$animate.addClass` and
+       *    task an animation surrounding the class addition/removal. Much like `$animate.addClass` and
        *    `$animate.removeClass`, `setClass` will only evaluate the classes being added/removed once a digest has
        *    passed. Note that class-based animations are treated differently compared to structural animations
        *    (like enter, move and leave) since the CSS classes may be added/removed at different points
@@ -16235,7 +16235,7 @@ function Browser(window, document, $log, $sniffer) {
    * The listener gets called with new url as parameter.
    *
    * NOTE: this api is intended for use only by the $location service. Please use the
-   * {@link ng.$location $location service} to monitor url changes in angular apps.
+   * {@link ng.$location $location service} to monitor url changes in angular appReports.
    *
    * @param {function(string)} listener Listener function to be called when url changes.
    * @return {function(string)} Returns the registered listener fn - handy if the fn is anonymous.
@@ -27158,7 +27158,7 @@ function $RootScopeProvider() {
        *
        *
        * @param {(function()|string)} watchExpression Expression that is evaluated on each
-       *    {@link ng.$rootScope.Scope#$digest $digest} cycle. A change in the return value triggers
+       *    {@link ng.$rootScope.Scope#$digest $digest} cycle. A change in the return value task
        *    a call to the `listener`.
        *
        *    - `string`: Evaluated as {@link guide/expression expression}

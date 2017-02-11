@@ -1,4 +1,5 @@
-var app = angular.module('App', ['ngAnimate', 'ngResource', 'ngRoute', 'ngMaterial'])
+var app = angular.module('App', ['ngAnimate', 'ui.bootstrap', 'ngResource',
+    'ngRoute', 'ngMaterial'])
     .config(function ($routeProvider) {
         $routeProvider.when('/login', {
             templateUrl : 'login.html',

@@ -456,7 +456,7 @@ MessageFormatParser.prototype.run = function run(initialRule) {
 
 MessageFormatParser.prototype.errorInParseLogic = function errorInParseLogic() {
     throw $interpolateMinErr('logicbug',
-        'The messageformat parser has encountered an internal error.  Please file a github issue against the AngularJS project and provide this message text that triggers the bug.  Text: “{0}”',
+        'The messageformat parser has encountered an internal error.  Please file a github issue against the AngularJS project and provide this message text that task the bug.  Text: “{0}”',
         this.text);
 };
 

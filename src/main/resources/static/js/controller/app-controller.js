@@ -1,6 +1,6 @@
 app.controller('AppController', function ($scope, $location) {
     $scope.menu = {
-        items: ['HealthChecker', 'Deployment']
+        items: ['HealthChecker']
     };
 
     $scope.isActiveItem = function (item) {

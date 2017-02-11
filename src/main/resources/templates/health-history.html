@@ -7,29 +7,48 @@
         <div class="col-sm-5">
             <div class="panel panel-primary">
                 <div class="panel-heading header">Healthchecker history</div>
-                <div class="history-table">
-                    <table class="table table-striped" >
-                        <tr ng-repeat="report in allReports" ng-click="showReport(report)">
-                            <td class="date-history col-xs-8">{{report.reportDate | date:'medium'}}</td>
-                            <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
-                                error : report.state === 'ERROR'}"></td>
-                        </tr>
-                    </table>
+                <div class="pull-right">
+                    <button class="dropdown page-size-btn">
+                        <a class="dropdown-toggle page-size-dropdown" data-toggle="dropdown" role="button">Page size: {{pageable.size}}<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="changePageSize(5)">5</a></li>
+                            <li><a ng-click="changePageSize(10)">10</a></li>
+                            <li><a ng-click="changePageSize(25)">25</a></li>
+                            <li><a ng-click="changePageSize(50)">50</a></li>
+                            <li><a ng-click="changePageSize(100)">100</a></li>
+                        </ul>
+                    </button>
                 </div>
+                <ul class="pagination pagination-style">
+                    <a class="page" ng-click="previousPage()">&laquo;</a>
+                    <a class="page" ng-click="selectPage(num)" ng-repeat="num in pager.array"
+                       ng-class="{activePage : num === pager.current}">{{num}}</a>
+                    <a class="page" ng-click="nextPage()">&raquo;</a>
+                </ul>
+                <table class="table table-striped">
+                    <tr ng-repeat="report in reports" ng-click="showReport(report)">
+                        <td ng-class="{selected : report === selectedReport}"
+                            class="date-history col-xs-8">{{report.reportDate | date:'medium'}}
+                        </td>
+                        <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
+                                error : report.state === 'ERROR'}"></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
-        <div class="col-sm-7">
+        <div class="col-sm-7" ng-if="selectedReport">
             <div class="panel panel-primary">
                 <div class="panel-heading header">Report details</div>
-                <table class="date-history table table-striped">
+                <table class="date-history table table-striped custom-table">
                     <tr>
                         <td class="col-xs-3">App</td>
                         <td class="col-xs-2">State</td>
                         <td class="col-xs-7">Messages</td>
                     </tr>
                     <tr ng-repeat="appReport in selectedReport.appReports">
-                        <td>{{appReport.appName}}</td>
+                        <td>{{appReport.application.name}}</td>
                         <td ng-class="{healthy : appReport.state === 'HEALTHY',
                             error : appReport.state === 'ERROR'}"></td>
                         <td>{{appReport.messages}}</td>

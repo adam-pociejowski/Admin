@@ -2,15 +2,15 @@ package valverde.com.example.healthchecker.rest;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import valverde.com.example.healthchecker.dto.HealthDTO;
-import valverde.com.example.healthchecker.dto.HealthReportDTO;
-import valverde.com.example.healthchecker.enums.App;
+import org.springframework.web.bind.annotation.*;
+import valverde.com.example.healthchecker.dto.*;
+import valverde.com.example.healthchecker.service.ApplicationService;
 import valverde.com.example.healthchecker.service.HealthCheckerService;
+import valverde.com.example.healthchecker.task.TaskTriggers;
 import java.util.List;
 
 @RestController
@@ -18,45 +18,48 @@ import java.util.List;
 @RequestMapping("/healthchecker/rest")
 public class HealthCheckerRestController {
 
-    @GetMapping("/getallreports")
-    public ResponseEntity<List<HealthReportDTO>> getAllReports() {
+    @GetMapping("/getreports")
+    public ResponseEntity<List<HealthReportDTO>> getReports(@RequestParam("page") Integer pageNumber,
+                                                            @RequestParam("size") Integer pageSize,
+                                                            @RequestParam("sort") String sortByField) {
         try {
-            return new ResponseEntity<>(healthCheckerService.getAllHealthReports(), HttpStatus.OK);
+            PageRequest pageRequest = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, sortByField);
+            List<HealthReportDTO> reports = healthCheckerService.getReportsForPage(pageRequest);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Problem with getting information about all health reports.", e);
+            log.error("Problem with getting information about health reports " +
+                    "on page: "+pageNumber+", with size: "+pageSize+", sortedBy: "+sortByField, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getreportsamount")
+    public ResponseEntity<Long> getReportsAmount() {
+        try {
+            return new ResponseEntity<>(healthCheckerService.getReportAmount(), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Problem while getting information about amount of reports.", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/getstatuses")
-    public ResponseEntity<List<HealthDTO>> getActualStatuses() {
+    public ResponseEntity<List<AppHealthDTO>> getActualStatuses() {
         try {
-            List<HealthDTO> dtos = healthCheckerService.getHealthStatusesFromApps();
+            List<AppHealthDTO> dtos = healthCheckerService.getHealthStatusesFromApps();
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Problem while getting actual statuses of apps.", e);
+            log.error("Problem while getting actual statuses of appReports.", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/getlastreport")
-    public ResponseEntity<HealthReportDTO> getLastReport() {
+    @GetMapping("/getdetails")
+    public ResponseEntity<DetailsDTO> getAppDetails() {
         try {
-            HealthReportDTO dto = healthCheckerService.getLastHealthReportAsDTO();
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            return new ResponseEntity<>(healthCheckerService.getDetails(), HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Problem while getting last report.", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/getapps")
-    public ResponseEntity<List<App>> getApps() {
-        try {
-            List<App> apps = healthCheckerService.getApps();
-            return new ResponseEntity<>(apps, HttpStatus.OK);
-        } catch (Exception e) {
-            log.error("Problem while getting apps.", e);
+            log.error("Problem while getting applications details.", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -71,10 +74,38 @@ public class HealthCheckerRestController {
         }
     }
 
-    @Autowired
-    public HealthCheckerRestController(HealthCheckerService healthCheckerService) {
-        this.healthCheckerService = healthCheckerService;
+    @PostMapping("/save-app")
+    public HttpStatus saveApp(@RequestBody ApplicationDTO applicationDTO) {
+        try {
+            applicationService.saveApplication(applicationDTO);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            log.error("Problem while saving application "+applicationDTO.getName(), e);
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 
+    @PostMapping("/delete-app")
+    public HttpStatus deleteApp(@RequestBody ApplicationDTO applicationDTO) {
+        try {
+            applicationService.deleteApplication(applicationDTO);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            log.error("Problem while deleting application "+applicationDTO.getName(), e);
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+
+    @Autowired
+    public HealthCheckerRestController(HealthCheckerService healthCheckerService, ApplicationService applicationService) {
+        this.healthCheckerService = healthCheckerService;
+        this.applicationService = applicationService;
+    }
+
+    @Autowired
+    private TaskTriggers task;
+
     private final HealthCheckerService healthCheckerService;
+
+    private final ApplicationService applicationService;
 }
