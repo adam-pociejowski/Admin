@@ -1,16 +1,31 @@
 <div class="container" ng-controller="HealthHistoryController" ng-init="init()">
     <div class="row">
-        <div>
+        <div class="col-md-4 col-md-offset-1 larger-text bold">
+            Reports amount: {{reportsDetails.reportsAmount}}
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-1">
             <span ng-click="goToLocation('healthchecker')" class="glyphicon-span glyphicon glyphicon-home"></span>
         </div>
+        <div class="col-md-5 larger-text bold">
+            Last problem date: {{reportsDetails.lastErrorDate | date : 'yyyy-MM-dd hh:mm'}}
+        </div>
+        <div class="col-md-6 larger-text bold">
+            Last success date: {{reportsDetails.lastSuccessDate | date : 'yyyy-MM-dd hh:mm'}}
+        </div>
+    </div>
 
+    <div class="row">
         <div class="col-sm-5">
             <div class="panel panel-primary">
                 <div class="panel-heading header">Healthchecker history</div>
                 <div class="pull-right">
                     <button class="dropdown page-size-btn">
-                        <a class="dropdown-toggle page-size-dropdown" data-toggle="dropdown" role="button">Page size: {{pageable.size}}<span
-                                class="caret"></span></a>
+                        <a class="dropdown-toggle page-size-dropdown" data-toggle="dropdown" role="button">Page size:
+                            {{pageable.size}}<span
+                                    class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a ng-click="changePageSize(5)">5</a></li>
                             <li><a ng-click="changePageSize(10)">10</a></li>
@@ -29,7 +44,7 @@
                 <table class="table table-striped">
                     <tr ng-repeat="report in reports" ng-click="showReport(report)">
                         <td ng-class="{selected : report === selectedReport}"
-                            class="date-history col-xs-8">{{report.reportDate | date:'medium'}}
+                            class="date-history col-xs-8">{{report.reportDate | date : 'yyyy-MM-dd hh:mm:ss'}}
                         </td>
                         <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
                                 error : report.state === 'ERROR'}"></td>

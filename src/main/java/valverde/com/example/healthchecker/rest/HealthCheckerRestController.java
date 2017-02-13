@@ -33,10 +33,10 @@ public class HealthCheckerRestController {
         }
     }
 
-    @GetMapping("/getreportsamount")
-    public ResponseEntity<Long> getReportsAmount() {
+    @GetMapping("/getReportsDetails")
+    public ResponseEntity<ReportsDetailsDTO> getReportsAmount() {
         try {
-            return new ResponseEntity<>(healthCheckerService.getReportAmount(), HttpStatus.OK);
+            return new ResponseEntity<>(healthCheckerService.getReportDetails(), HttpStatus.OK);
         } catch (Exception e) {
             log.error("Problem while getting information about amount of reports.", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

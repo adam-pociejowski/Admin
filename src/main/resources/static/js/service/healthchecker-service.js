@@ -23,8 +23,8 @@ app.factory('healthCheckerService', ['$http', function ($http) {
         getDetails: function () {
             return $http.get(BASE_URL + 'getdetails');
         },
-        getReportsAmount: function() {
-            return $http.get(BASE_URL + 'getreportsamount');
+        getReportsDetails: function() {
+            return $http.get(BASE_URL + 'getReportsDetails');
         }
     };
 }]);

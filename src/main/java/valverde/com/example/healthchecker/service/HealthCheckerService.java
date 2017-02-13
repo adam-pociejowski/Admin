@@ -10,12 +10,10 @@ import valverde.com.example.healthchecker.enums.HealthState;
 import valverde.com.example.healthchecker.repository.HealthReportRepository;
 import valverde.com.example.healthchecker.rest.HealthStatusRestConsumer;
 import org.springframework.data.domain.Pageable;
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
 import static valverde.com.example.healthchecker.util.HealthReportUtils.*;
 
 @Service
@@ -23,13 +21,9 @@ import static valverde.com.example.healthchecker.util.HealthReportUtils.*;
 @Transactional
 public class HealthCheckerService {
 
-    public Long getReportAmount() {
-        return repository.count();
-    }
-
     public List<HealthReportDTO> getReportsForPage(Pageable pageable) {
         List<HealthReportDTO> dtos = new ArrayList<>();
-        List<HealthReport> reports = repository.findAll(pageable).getContent();
+        List<HealthReport> reports = reportRepository.findAll(pageable).getContent();
         reports.forEach(report -> dtos.add(new HealthReportDTO(report)));
         return dtos;
     }
@@ -41,11 +35,21 @@ public class HealthCheckerService {
         return appHealthDTOS;
     }
 
+    public ReportsDetailsDTO getReportDetails() {
+        HealthReport lastSuccess = reportRepository.findTop1ByStatusOrderByIdDesc(HealthState.SUCCESS);
+        HealthReport lastError = reportRepository.findTop1ByStatusOrderByIdDesc(HealthState.ERROR);
+        ReportsDetailsDTO reportsDetails = new ReportsDetailsDTO();
+        reportsDetails.setLastSuccessDate(getReportDate(lastSuccess));
+        reportsDetails.setLastErrorDate(getReportDate(lastError));
+        reportsDetails.setReportsAmount(reportRepository.count());
+        return reportsDetails;
+    }
+
     public void saveReportsFromDTOs(List<AppHealthDTO> dtos) {
         try {
             HealthReport report = convertToReportFromDTO(dtos);
             report.setStatus(getOverallStatus(dtos));
-            repository.save(report);
+            reportRepository.save(report);
             log.info("HealthChecker report saved.");
         } catch (Exception e) {
             log.error("Problem while saving healthChecker report.", e);
@@ -77,6 +81,10 @@ public class HealthCheckerService {
         return appsDetails;
     }
 
+    private Date getReportDate(HealthReport report) {
+        return report != null ? report.getReportDate() : null;
+    }
+
     private java.util.Date getReportDate(HealthReportDTO report) {
         return report != null ? report.getReportDate() : new java.util.Date();
     }
@@ -98,7 +106,7 @@ public class HealthCheckerService {
     }
 
     private HealthReportDTO getLastHealthReportAsDTO() {
-        HealthReport report = repository.findTop1ByOrderByIdDesc();
+        HealthReport report = reportRepository.findTop1ByOrderByIdDesc();
         if (report == null) {
             log.error("No report found.");
             return null;
@@ -151,14 +159,14 @@ public class HealthCheckerService {
     }
 
     @Autowired
-    public HealthCheckerService(HealthReportRepository repository, HealthStatusRestConsumer restConsumer,
+    public HealthCheckerService(HealthReportRepository reportRepository, HealthStatusRestConsumer restConsumer,
                                 ApplicationService applicationService) {
-        this.repository = repository;
+        this.reportRepository = reportRepository;
         this.restConsumer = restConsumer;
         this.applicationService = applicationService;
     }
 
-    private final HealthReportRepository repository;
+    private final HealthReportRepository reportRepository;
 
     private final HealthStatusRestConsumer restConsumer;
 

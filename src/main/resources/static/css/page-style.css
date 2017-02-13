@@ -65,6 +65,14 @@ html {
     border:none;
 }
 
+.larger-text {
+    font-size: 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 .page-size-dropdown {
     color: white;
 }

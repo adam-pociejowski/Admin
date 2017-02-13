@@ -47,7 +47,7 @@ app.controller('HealthHistoryController', function ($scope, healthCheckerService
     $scope.changePageSize = function (size) {
         $scope.pageable.size = size;
         getPageReport();
-        getReportsAmount();
+        getReportsDetails();
         $scope.pager.current = 1;
         $scope.pager.start = 1;
         $scope.selectPage(1);
@@ -86,10 +86,12 @@ app.controller('HealthHistoryController', function ($scope, healthCheckerService
         $scope.selectedReport = null;
     };
 
-    var getReportsAmount = function () {
-        var promise = healthCheckerService.getReportsAmount();
+    var getReportsDetails = function () {
+        var promise = healthCheckerService.getReportsDetails();
         promise.success(function(data) {
-            $scope.pager.amount = Math.floor(data / $scope.pageable.size);
+            $scope.reportsDetails = data;
+            console.log($scope.reportsDetails);
+            $scope.pager.amount = Math.floor($scope.reportsDetails.reportsAmount / $scope.pageable.size);
             if (data / $scope.pageable.size !== 0)
                 $scope.pager.amount++;
             setPagesDisplayAmount();
@@ -99,13 +101,15 @@ app.controller('HealthHistoryController', function ($scope, healthCheckerService
     var setPagesDisplayAmount = function () {
         if ($scope.pager.amount < maxDisplayPages) {
             $scope.pager.displayAmount = $scope.pager.amount;
-            $scope.pager.array = getArrayNumber();
+        } else {
+            $scope.pager.displayAmount = maxDisplayPages;
         }
+        $scope.pager.array = getArrayNumber();
     };
 
     $scope.init = function () {
         getPageReport();
-        getReportsAmount();
+        getReportsDetails();
         $scope.pager.array = getArrayNumber();
     };
 });
