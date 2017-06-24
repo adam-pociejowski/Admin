@@ -50,7 +50,7 @@ public class HealthStatusRestConsumer {
 
     public void wakeUpApp() {
         try {
-            getRestTemplate().getForObject(APP_URL+"/healthchecker/rest/wakeup", String.class);
+            getRestTemplate().getForObject(APP_URL+"/healthchecker/controller/wakeup", String.class);
             log.info("Application awoken.");
         } catch (Exception e) {
             log.error("Problem while trying to wake up application.", e);

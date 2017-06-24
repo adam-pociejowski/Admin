@@ -95,5 +95,8 @@ app.controller('HealthCheckerController', function ($scope, $timeout, $interval,
     $scope.init = function () {
         getDetails();
         initSockets();
+        // $scope.authenticate(function () {
+        //     console.log('authenticated');
+        // });
     };
 });

@@ -12,6 +12,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("healthchecker.html").setViewName("healthchecker");
         registry.addViewController("health-history.html").setViewName("health-history");
+        registry.addViewController("login.html").setViewName("login");
+        registry.addViewController("sms-sender.html").setViewName("sms-sender");
     }
 
     @Override

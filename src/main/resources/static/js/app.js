@@ -10,6 +10,9 @@ var app = angular.module('App', ['ngAnimate', 'ui.bootstrap', 'ngResource',
         }).when('/healthchecker/history', {
             templateUrl : 'health-history.html',
             controller : 'HealthCheckerController'
+        }).when('/sms', {
+            templateUrl : 'sms-sender.html',
+            controller : 'SmsSenderController'
         }).otherwise(
             { redirectTo: '/healthchecker'}
         );
