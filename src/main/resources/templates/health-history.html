@@ -10,10 +10,10 @@
             <span ng-click="goToLocation('healthchecker')" class="glyphicon-span glyphicon glyphicon-home"></span>
         </div>
         <div class="col-md-5 larger-text bold">
-            Last problem date: {{reportsDetails.lastErrorDate | date : 'yyyy-MM-dd hh:mm'}}
+            Last problem date: {{reportsDetails.lastErrorDate | date : 'yyyy-MM-dd hh:mm a'}}
         </div>
         <div class="col-md-6 larger-text bold">
-            Last success date: {{reportsDetails.lastSuccessDate | date : 'yyyy-MM-dd hh:mm'}}
+            Last success date: {{reportsDetails.lastSuccessDate | date : 'yyyy-MM-dd hh:mm a'}}
         </div>
     </div>
 
@@ -41,34 +41,38 @@
                        ng-class="{activePage : num === pager.current}">{{num}}</a>
                     <a class="page" ng-click="nextPage()">&raquo;</a>
                 </ul>
-                <table class="table table-striped">
-                    <tr ng-repeat="report in reports" ng-click="showReport(report)">
-                        <td ng-class="{selected : report === selectedReport}"
-                            class="date-history col-xs-8">{{report.reportDate | date : 'yyyy-MM-dd hh:mm:ss'}}
-                        </td>
-                        <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
-                                error : report.state === 'ERROR'}"></td>
-                    </tr>
-                </table>
+                <div class="scrollable medium-height">
+                    <table class="no-margin-and-padding table table-striped">
+                        <tr ng-repeat="report in reports" ng-click="showReport(report)">
+                            <td ng-class="{selected : report === selectedReport}"
+                                class="date-history col-xs-8">{{report.reportDate | date : 'yyyy-MM-dd hh:mm:ss a'}}
+                            </td>
+                            <td class="col-xs-3" ng-class="{healthy : report.state === 'SUCCESS',
+                                    error : report.state === 'ERROR'}"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="col-sm-7" ng-if="selectedReport">
             <div class="panel panel-primary">
                 <div class="panel-heading header">Report details</div>
-                <table class="date-history table table-striped custom-table">
-                    <tr>
-                        <td class="col-xs-3">App</td>
-                        <td class="col-xs-2">State</td>
-                        <td class="col-xs-7">Messages</td>
-                    </tr>
-                    <tr ng-repeat="appReport in selectedReport.appReports">
-                        <td>{{appReport.application.name}}</td>
-                        <td ng-class="{healthy : appReport.state === 'HEALTHY',
+                <div class="scrollable medium-height">
+                    <table class="no-margin-and-padding date-history table table-striped custom-table">
+                        <tr>
+                            <td class="col-xs-3">App</td>
+                            <td class="col-xs-2">State</td>
+                            <td class="col-xs-7">Messages</td>
+                        </tr>
+                        <tr ng-repeat="appReport in selectedReport.appReports">
+                            <td>{{appReport.application.name}}</td>
+                            <td ng-class="{healthy : appReport.state === 'HEALTHY',
                             error : appReport.state === 'ERROR'}"></td>
-                        <td>{{appReport.messages}}</td>
-                    </tr>
-                </table>
+                            <td>{{appReport.messages}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

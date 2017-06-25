@@ -15,7 +15,7 @@ public class TaskTriggers {
         try {
             healthCheckerTask.startTask();
         } catch (Exception e) {
-            log.error("Problem in HealthCheckerTask", e);
+            log.error("Exception during HealthCheckerTask", e);
         }
     }
 
@@ -25,7 +25,7 @@ public class TaskTriggers {
         try {
             databaseRowLimitTask.startTask();
         } catch (Exception e) {
-            log.error("Problem in DeleteRedundantRowsTask", e);
+            log.error("Exception during DeleteRedundantRowsTask", e);
         }
     }
 

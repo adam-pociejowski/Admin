@@ -31,6 +31,9 @@ public class HealthCheckerService {
     public List<AppHealthDTO> getHealthStatusesFromApps() {
         List<AppHealthDTO> appHealthDTOS = new ArrayList<>();
         List<Application> activeApps = applicationService.getActiveApplications();
+        if (activeApps.size() == 0) {
+            throw new NoActiveHealthcheckerApplicationException("No active application for Healthchecker found.");
+        }
         activeApps.forEach(app -> appHealthDTOS.add(restConsumer.getHealthStatus(app)));
         return appHealthDTOS;
     }
@@ -171,4 +174,10 @@ public class HealthCheckerService {
     private final HealthStatusRestConsumer restConsumer;
 
     private final ApplicationService applicationService;
+
+    class NoActiveHealthcheckerApplicationException extends RuntimeException {
+        NoActiveHealthcheckerApplicationException(String message) {
+            super(message);
+        }
+    }
 }

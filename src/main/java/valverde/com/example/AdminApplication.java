@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @Configuration
-@SpringBootApplication
-@EnableScheduling
 @RestController
+@EnableScheduling
+@SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AdminApplication {
 

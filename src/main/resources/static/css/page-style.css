@@ -8,7 +8,7 @@ html {
 }
 
 #content {
-    margin-top: 80px;
+    padding-top: 80px;
 }
 
 #custom-bootstrap-menu.navbar-default .navbar-brand {
@@ -227,4 +227,17 @@ a.glyphicon{
 .health-history {
     background-color: white;
     padding: 10px;
+}
+
+.scrollable {
+    overflow: auto;
+}
+
+.medium-height {
+    max-height: 465px;
+}
+
+.no-margin-and-padding {
+    margin: 0;
+    padding: 0;
 }
